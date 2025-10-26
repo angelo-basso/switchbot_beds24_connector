@@ -20,7 +20,10 @@ export class CodeManager {
     }) {
         // Idempotence : si bookingId existe, return existing
         const existing = await prisma.accessCode.findUnique({ where: { bookingId: booking.bookingId }});
-        if (existing) return existing;
+        if (existing){
+            logger.warn({ bookingId: booking.bookingId }, 'Access code already exists for bookingId, returning existing');
+            return existing;
+        }
 
         // Génère un code sécurisé entre 6 et 12 chiffres
 
@@ -41,13 +44,14 @@ export class CodeManager {
                 status: 'CREATED'
             }
         });
-
+        logger.info({ accessCodeId: rec.id, bookingId: booking.bookingId }, 'Created access code record');
         // push job to queue or call switchbot here (we will use worker)
         return { rec, passcode }; // return passcode so caller can email guest or enqueue job
     }
 
     // update status helper
     async updateStatus(id: string, status: string, audit?: any) {
+        logger.info({ accessCodeId: id, status }, 'Updating access code status');
         return prisma.accessCode.update({ where: { id }, data: { status, audit }});
     }
 }
