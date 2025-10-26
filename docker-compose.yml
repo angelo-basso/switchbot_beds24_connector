@@ -1,4 +1,23 @@
 services:
+  swbot_connector:
+    container_name: swbot_connector_app
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      - SWITCHBOT_TOKEN=${SWITCHBOT_TOKEN}
+      - SWITCHBOT_SECRET=${SWITCHBOT_SECRET}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - NODE_ENV=${APP_NODE_ENV}
+      - PORT=${APP_PORT}
+    depends_on:
+        - postgres
+        - redis
+    networks:
+      - swbot_connector
   postgres:
     image: postgres:18-trixie
     container_name: postgres
@@ -12,6 +31,14 @@ services:
       - "5432:5432"
     networks:
       - swbot_connector
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - swbot_connector
+    command: redis-server --save 60 1 --appendonly yes
 volumes:
   db-data:
     driver: local
