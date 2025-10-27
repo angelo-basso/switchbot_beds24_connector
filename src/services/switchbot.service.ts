@@ -27,6 +27,19 @@ export class SwitchBotService {
         };
     }
 
+    async getAllDevicesAsync() {
+        const url = `${API_BASE}/devices`;
+        try{
+            const res = await axios.get(url, { headers: this.headers(), timeout: 10000 });
+            console.table(res)
+
+        }catch(err: any) {
+            logger.error({ err: err?.response?.data || err?.message }, 'SwitchBot getAllDevices error');
+            throw err;
+        }
+    }
+
+
     async createKeyAsync(deviceId: string, payload: any) {
         const url = `${API_BASE}/devices/${deviceId}/commands`;
         try {

@@ -47,4 +47,12 @@ router.post('/hooks/beds24/switchbot', express.json(), async (req, res) => {
     }
 });
 
+router.get('/switchbot/devices', async (req, res) => {
+    const switchbot = new SwitchBotService(
+        process.env.SWITCHBOT_TOKEN!,
+        process.env.SWITCHBOT_SECRET!
+    );
+    await switchbot.getAllDevicesAsync()
+})
+
 export default router;
