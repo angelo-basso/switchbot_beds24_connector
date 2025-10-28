@@ -30,8 +30,7 @@ export class SwitchBotService {
     async getAllDevicesAsync() {
         const url = `${API_BASE}/devices`;
         try{
-            const res = await axios.get(url, { headers: this.headers(), timeout: 10000 });
-            console.table(res)
+            return await axios.get(url, { headers: this.headers(), timeout: 10000 });
 
         }catch(err: any) {
             logger.error({ err: err?.response?.data || err?.message }, 'SwitchBot getAllDevices error');
