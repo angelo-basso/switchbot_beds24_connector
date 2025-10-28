@@ -19,7 +19,7 @@ services:
     networks:
       - swbot_connector
   postgres:
-    image: postgres:18-trixie
+    image: postgres:15
     container_name: postgres
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
