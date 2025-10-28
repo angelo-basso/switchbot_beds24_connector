@@ -33,9 +33,11 @@ router.post('/hooks/beds24/switchbot', express.json(), async (req, res) => {
             checkOut: payload.checkOut,
             keypadDeviceId: payload.keypadDeviceId
         });
-
+        if(!result.accessCode){
+            return res.status(500).send({ error: 'failed to create access code' });
+        }
         // If the service returned rec + passcode, enqueue job to actually create key
-        const rec = result.rec || result;
+        const rec = result.accessCode;
         await queue.add('create', { accessCodeId: rec.id, operation: 'create' });
 
         // Optionally: send back the generated passcode to your notification service here (email/SMS) using result.passcode

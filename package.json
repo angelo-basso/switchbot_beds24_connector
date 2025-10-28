@@ -10,15 +10,15 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "ioredis": "^5.8.2",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
     "pino": "^10.1.0",
-    "prisma": "^6.18.0"
+    "prisma": "^6.18.0",
+    "sequelize": "^6.37.7"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.4",
-    "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.3",
     "@types/node": "^24.9.1",
-    "@types/uuid": "^11.0.0",
     "typescript": "^5.9.3"
   },
   "scripts": {

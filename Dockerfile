@@ -1,13 +1,12 @@
-ENV NODE_ENV=production
-ENV PORT=3000
 # build stage
 FROM node:20-alpine AS builder
+ENV NODE_ENV=production
+ENV PORT=3000
 WORKDIR /app
 COPY package.json tsconfig.json ./
-RUN npm install -g yarn
 RUN yarn install --immutable --immutable-cache --check-cache
 COPY . .
-RUN npm run build
+RUN yarn run build
 
 # runtime
 FROM node:20-alpine
