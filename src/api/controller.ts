@@ -54,7 +54,8 @@ router.get('/switchbot/devices', async (req, res) => {
         process.env.SWITCHBOT_TOKEN!,
         process.env.SWITCHBOT_SECRET!
     );
-    await switchbot.getAllDevicesAsync()
+    const response = await switchbot.getAllDevicesAsync();
+    res.status(200).json(response.data.body);
 })
 
 export default router;
