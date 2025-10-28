@@ -5,7 +5,7 @@ import {decrypt} from '../utils/crypto.util';
 import {logger} from '../utils/logger';
 import {AccessCode} from "../models/access-code.model";
 
-const connection = new IORedis(process.env.REDIS_URL!);
+const connection = new IORedis(process.env.REDIS_URL!,{maxRetriesPerRequest: null});
 const queueName = 'switchbot-jobs';
 export const queue = new Queue(queueName, {connection});
 
