@@ -3,7 +3,7 @@ import {logger} from '../utils/logger';
 import {queue} from '../workers/switchbot.worker';
 import {CodeManager} from '../services/code-manager.service';
 import {SwitchBotService} from '../services/switchbot.service';
-
+import "dotenv/config";
 import {IBooking} from "../interfaces/IBooking";
 const router = express.Router();
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;

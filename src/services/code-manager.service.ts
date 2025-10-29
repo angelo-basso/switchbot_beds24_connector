@@ -13,20 +13,12 @@ export class CodeManager {
         this.switchbot = sw;
     }
 
-    async createAndPersistAsync(booking: {
-        bookingId: string;
-        propertyId?: string;
-        guestName?: string;
-        guestEmail?: string;
-        checkIn: string;
-        checkOut: string;
-        keypadDeviceId: string;
-    }) {
+    async createAndPersistAsync(booking: IBooking) {
         // Idempotence : si bookingId existe, return existing
-        const accessCodeRecord = await AccessCode.findOne({where: {bookingId: booking.bookingId}})
+        const accessCodeRecord = await AccessCode.findOne<AccessCode>({where: {bookingId: booking.bookingId}})
         if (accessCodeRecord) {
             logger.warn({bookingId: booking.bookingId}, 'Access code already exists for bookingId, returning existing');
-            return {accessCodeRecord, passcode: decrypt(accessCodeRecord.codeEncrypted, ENC_KEY) };
+            return {accessCode:accessCodeRecord, passcode: decrypt(accessCodeRecord.codeEncrypted, ENC_KEY)};
         }
 
         // Génère un code sécurisé entre 6 et 12 chiffres
