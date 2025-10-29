@@ -18,6 +18,8 @@ const worker = new Worker(queueName, async job => {
 
     const passcode = decrypt(accessCodeRecord.codeEncrypted, process.env.ENCRYPTION_KEY!);
     const deviceId = accessCodeRecord.keypadDeviceId;
+    const startTimestampInSecond = Math.floor(accessCodeRecord.validFrom.getTime() / 1000);
+    const endTimestampInSecond = Math.floor(accessCodeRecord.validUntil.getTime() / 1000);
 
     if (operation === 'create') {
         const payload = {
@@ -25,9 +27,9 @@ const worker = new Worker(queueName, async job => {
             parameter: {
                 name: `Booking_${accessCodeRecord.guestName}`,
                 password: passcode,
-                startDate: accessCodeRecord.validFrom.toISOString(),
-                endDate: accessCodeRecord.validUntil.toISOString(),
-                type: 'TimeLimitPasscode'
+                startDate: startTimestampInSecond,
+                endDate: endTimestampInSecond,
+                type: 'timeLimit'
             },
             commandType: 'command'
         };

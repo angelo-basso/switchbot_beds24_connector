@@ -2,6 +2,7 @@ import {decrypt, encrypt} from '../utils/crypto.util';
 import {SwitchBotService} from './switchbot.service';
 import {logger} from '../utils/logger';
 import {AccessCode} from "../models/access-code.model";
+import {IBooking} from "../interfaces/IBooking";
 
 const ENC_KEY = process.env.ENCRYPTION_KEY!;
 
