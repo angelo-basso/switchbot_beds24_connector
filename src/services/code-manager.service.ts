@@ -18,7 +18,7 @@ export class CodeManager {
         const accessCodeRecord = await AccessCode.findOne<AccessCode>({where: {bookingId: booking.bookingId}})
         if (accessCodeRecord) {
             logger.warn({bookingId: booking.bookingId}, 'Access code already exists for bookingId, returning existing');
-            return {accessCode:accessCodeRecord, passcode: decrypt(accessCodeRecord.codeEncrypted, ENC_KEY)};
+            return {accessCode:accessCodeRecord, passcode: decrypt(accessCodeRecord.encryptedPassword, ENC_KEY)};
         }
 
         // Génère un code sécurisé entre 6 et 12 chiffres

@@ -16,10 +16,8 @@ const worker = new Worker(queueName, async job => {
     const accessCodeRecord = await AccessCode.findOne({where: {id: accessCodeId}});
     if (!accessCodeRecord) throw new Error('access code not found');
 
-    const passcode = decrypt(accessCodeRecord.codeEncrypted, process.env.ENCRYPTION_KEY!);
+    const passcode = decrypt(accessCodeRecord.encryptedPassword, process.env.ENCRYPTION_KEY!);
     const deviceId = accessCodeRecord.keypadDeviceId;
-    const startTimestampInSecond = Math.floor(accessCodeRecord.validFrom.getTime() / 1000);
-    const endTimestampInSecond = Math.floor(accessCodeRecord.validUntil.getTime() / 1000);
 
     if (operation === 'create') {
         const payload = {
@@ -27,8 +25,8 @@ const worker = new Worker(queueName, async job => {
             parameter: {
                 name: `Booking_${accessCodeRecord.guestName}`,
                 password: passcode,
-                startDate: startTimestampInSecond,
-                endDate: endTimestampInSecond,
+                startTime: Math.floor(accessCodeRecord.validFrom.getTime() / 1000),
+                endTime: Math.floor(accessCodeRecord.validUntil.getTime() / 1000),
                 type: 'timeLimit'
             },
             commandType: 'command'

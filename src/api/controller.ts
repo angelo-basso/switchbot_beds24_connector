@@ -33,9 +33,8 @@ router.post('/hooks/beds24/switchbot', express.json(), async (req, res) => {
         const rec = result.accessCode;
         await queue.add('create', { accessCodeId: rec.id, operation: 'create' });
 
-        // Optionally: send back the generated passcode to your notification service here (email/SMS) using result.passcode
-        // But do NOT include the passcode in this HTTP response to Beds24
-        res.status(200).json({ status: 'accepted', bookingId: payload.bookingId, accessCode: result.accessCode });
+        res.status(202).send({ status: 'accepted'});
+
     } catch (err: any) {
         logger.error({ err: err.message }, 'webhook error');
         res.status(500).send({ error: 'internal_error' });
@@ -43,6 +42,10 @@ router.post('/hooks/beds24/switchbot', express.json(), async (req, res) => {
 });
 
 router.get('/switchbot/devices', async (req, res) => {
+
+    const auth = req.header('authorization') || '';
+    if (auth !== `Bearer ${WEBHOOK_SECRET}`) return res.status(401).send({ error: 'unauthorized' });
+
     const switchbot = new SwitchBotService(
         process.env.SWITCHBOT_TOKEN!,
         process.env.SWITCHBOT_SECRET!

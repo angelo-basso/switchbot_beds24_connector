@@ -4,7 +4,7 @@ import {sequelize} from "../db";
 export class AccessCode extends Model {
     declare id: string;
     declare bookingId: string;
-    declare codeEncrypted: string;
+    declare encryptedPassword: string;
     declare propertyId?: string
     declare guestName: string
     declare guestEmail: string
@@ -22,7 +22,7 @@ AccessCode.init(
         guestEmail: {type: DataTypes.STRING, allowNull: false},
         propertyId: {type: DataTypes.STRING, allowNull: true},
         keypadDeviceId: {type: DataTypes.STRING, allowNull: false},
-        codeEncrypted: {type: DataTypes.STRING, allowNull: false},
+        encryptedPassword: {type: DataTypes.STRING, allowNull: false},
         validFrom: {type: DataTypes.DATE, allowNull: false},
         validUntil: {type: DataTypes.DATE, allowNull: false},
         status: {type: DataTypes.STRING, allowNull: false},
