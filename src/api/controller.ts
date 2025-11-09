@@ -15,7 +15,7 @@ router.post('/hooks/beds24/switchbot', express.json(), async (req, res) => {
 
         const payload = req.body as IBooking;
         // minimal validation
-        if (!payload.bookingId || !payload.checkIn || !payload.checkOut || !payload.keypadDeviceId || !payload.guestName || !payload.guestEmail) {
+        if (!payload.bookingId || !payload.checkIn || !payload.checkOut || !payload.keypadDeviceId || !payload.guestName) {
             return res.status(400).send({ error: 'invalid payload' });
         }
 

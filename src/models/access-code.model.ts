@@ -7,7 +7,6 @@ export class AccessCode extends Model {
     declare encryptedPassword: string;
     declare propertyId?: string
     declare guestName: string
-    declare guestEmail: string
     declare keypadDeviceId: string
     declare validFrom: Date;
     declare validUntil: Date;
@@ -19,7 +18,6 @@ AccessCode.init(
         id: {type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4},
         bookingId: {type: DataTypes.STRING, allowNull: false},
         guestName: {type: DataTypes.STRING, allowNull: false},
-        guestEmail: {type: DataTypes.STRING, allowNull: false},
         propertyId: {type: DataTypes.STRING, allowNull: true},
         keypadDeviceId: {type: DataTypes.STRING, allowNull: false},
         encryptedPassword: {type: DataTypes.STRING, allowNull: false},

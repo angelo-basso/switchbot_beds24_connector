@@ -30,9 +30,8 @@ export class CodeManager {
             bookingId: booking.bookingId,
             propertyId: booking.propertyId,
             guestName: booking.guestName,
-            guestEmail: booking.guestEmail,
             keypadDeviceId: booking.keypadDeviceId,
-            codeEncrypted: enc,
+            encryptedPassword: enc,
             validFrom: new Date(booking.checkIn),
             validUntil: new Date(booking.checkOut),
             status: 'CREATED'
