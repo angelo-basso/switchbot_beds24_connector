@@ -4,10 +4,11 @@ import {SwitchBotService} from '../services/switchbot.service';
 import {decrypt} from '../utils/crypto.util';
 import {logger} from '../utils/logger';
 import {AccessCode} from "../models/access-code.model";
+import {ioRedisConnection} from "../db";
 
 const connection = new IORedis(process.env.REDIS_URL!,{maxRetriesPerRequest: null});
 const queueName = 'switchbot-jobs';
-export const queue = new Queue(queueName, {connection});
+export const queue = new Queue(queueName, {connection: ioRedisConnection});
 
 const sw = new SwitchBotService(process.env.SWITCHBOT_TOKEN!, process.env.SWITCHBOT_SECRET!);
 
@@ -44,7 +45,7 @@ const worker = new Worker(queueName, async job => {
     } else {
         throw new Error('unknown operation');
     }
-}, {connection, concurrency: 5});
+}, {connection: ioRedisConnection, concurrency: 5});
 
 worker.on('failed', (job, err) => {
     logger.error({jobId: job?.id, err: err.message}, 'Job failed');
