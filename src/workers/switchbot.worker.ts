@@ -1,12 +1,10 @@
-import {Worker, Queue} from 'bullmq';
-import IORedis from 'ioredis';
+import {Queue, Worker} from 'bullmq';
 import {SwitchBotService} from '../services/switchbot.service';
 import {decrypt} from '../utils/crypto.util';
 import {logger} from '../utils/logger';
 import {AccessCode} from "../models/access-code.model";
 import {ioRedisConnection} from "../db";
 
-const connection = new IORedis(process.env.REDIS_URL!,{maxRetriesPerRequest: null});
 const queueName = 'switchbot-jobs';
 export const queue = new Queue(queueName, {connection: ioRedisConnection});
 
