@@ -2,6 +2,7 @@ import {decrypt, encrypt} from '../utils/crypto.util';
 import {SwitchBotService} from './switchbot.service';
 import {logger} from '../utils/logger';
 import {AccessCode} from "../models/access-code.model";
+import "dotenv/config";
 import {IBooking} from "../interfaces/IBooking";
 
 const ENC_KEY = process.env.ENCRYPTION_KEY!;
@@ -21,9 +22,9 @@ export class CodeManager {
             return {accessCode:accessCodeRecord, passcode: decrypt(accessCodeRecord.encryptedPassword, ENC_KEY)};
         }
 
-        // Génère un code sécurisé entre 6 et 12 chiffres
+        // Génère un code sécurisé entre 6 et 9 chiffres
 
-        const passcode = Array.from({length: Math.floor(Math.random() * 7) + 6}, () => Math.floor(Math.random() * 10)).join('');
+        const passcode = Array.from({length: Math.floor(Math.random() * 4) + 6}, () => Math.floor(Math.random() * 10)).join('');
 
         const enc = encrypt(passcode, ENC_KEY);
         const accessCode = await AccessCode.create({
