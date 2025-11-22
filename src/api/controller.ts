@@ -5,6 +5,7 @@ import {CodeManager} from '../services/code-manager.service';
 import {SwitchBotService} from '../services/switchbot.service';
 import "dotenv/config";
 import {IBooking} from "../interfaces/IBooking";
+import {Beds24Service} from "../services/beds24.service";
 const router = express.Router();
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
@@ -32,6 +33,8 @@ router.post('/hooks/beds24/switchbot', express.json(), async (req, res) => {
         // If the service returned rec + passcode, enqueue job to actually create key
         const rec = result.accessCode;
         await queue.add('create', { accessCodeId: rec.id, operation: 'create' });
+
+        await Beds24Service.setBookingInfoItemAsync(payload.bookingId,"ACCESS_CODE",result.passcode);
 
         res.status(202).send({ status: 'accepted'});
 
