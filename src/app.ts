@@ -2,7 +2,7 @@ import express from 'express';
 import router from './api/controller';
 import {logger} from './utils/logger';
 import {sequelize} from "./db";
-
+import "dotenv/config";
 const app = express();
 app.use(router);
 

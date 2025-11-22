@@ -3,6 +3,7 @@ import {SwitchBotService} from '../services/switchbot.service';
 import {decrypt} from '../utils/crypto.util';
 import {logger} from '../utils/logger';
 import {AccessCode} from "../models/access-code.model";
+import "dotenv/config";
 import {ioRedisConnection} from "../db";
 
 const queueName = 'switchbot-jobs';
