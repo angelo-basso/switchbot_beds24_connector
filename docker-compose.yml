@@ -39,20 +39,20 @@ services:
     networks:
       - swbot_connector
     command: redis-server --save 60 1 --appendonly yes
-#  ngrok:
-#    image: ngrok/ngrok:latest
-#    container_name: swbot_ngrok
-#    restart: unless-stopped
-#    environment:
-#      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
-#    command: http swbot_connector_app:3000
-#    depends_on:
-#      - swbot_connector_app
-#    # Pour accéder au dashboard web (utile pour debugger)
-#    ports:
-#      - "4040:4040"
-#    networks:
-#        - swbot_connector
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: swbot_ngrok
+    restart: unless-stopped
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    command: http swbot_connector_app:3000
+    depends_on:
+      - swbot_connector_app
+    # Pour accéder au dashboard web (utile pour debugger)
+    ports:
+      - "4040:4040"
+    networks:
+        - swbot_connector
 volumes:
   db-data:
     driver: local
